@@ -4,28 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class TypingGame : MonoBehaviour
 {
-    public Text wordText; // ’PŒê‚ğ•\¦‚·‚é‚½‚ß‚ÌText
-    public Text feedbackText; // ƒ†[ƒU[‚ÉŒ‹‰Ê‚ğ•\¦‚·‚é‚½‚ß‚ÌText
+    public Text wordText; // å˜èªã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã®Text
+    public Text feedbackText; // ãƒ¦ãƒ¼ã‚¶ãƒ¼ã«çµæœã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã®Text
     public Text gameClearText;
     public Text gameOverText;
-    public InputField inputField; // ƒ†[ƒU[‚ª“ü—Í‚·‚é‚½‚ß‚ÌInputField
-    public GameObject RetryBtn; // ƒŠƒgƒ‰ƒCƒ{ƒ^ƒ“
+    public InputField inputField; // ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒå…¥åŠ›ã™ã‚‹ãŸã‚ã®InputField
+    public GameObject RetryBtn; // ãƒªãƒˆãƒ©ã‚¤ãƒœã‚¿ãƒ³
 
 
-    private string[] words = { "²”Œ", "ƒCƒbƒeƒc", "‘¸‚¢", "Šç‚ª‚æ‚¢", "ƒƒ‚¢", "²”Œ‚ÅGOI" }; // o‘è‚·‚é’PŒêƒŠƒXƒg
-    private int currentWordIndex = 0; // Œ»İ•\¦‚³‚ê‚Ä‚¢‚é’PŒê‚ÌƒCƒ“ƒfƒbƒNƒX
+    private string[] words = { "ã‚ã‚ŠãŒã¨ã†", "ã•ã‚ˆã†ãªã‚‰", "Unity", "Hello World", "ã‚²ãƒ¼ãƒ ", "ã‚¿ã‚¤ãƒ”ãƒ³ã‚°" }; // å‡ºé¡Œã™ã‚‹å˜èªãƒªã‚¹ãƒˆ
+    private int currentWordIndex = 0; // ç¾åœ¨è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹å˜èªã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
-    public float maxTextSize = 150f;  // Å‘å‚ÌƒtƒHƒ“ƒgƒTƒCƒY
-    public float textDuration = 20f; // ƒtƒHƒ“ƒgƒTƒCƒY‚ª•Ï‰»‚·‚éŠÔ
+    public float maxTextSize = 150f;  // æœ€å¤§ã®ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+    public float textDuration = 20f; // ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºãŒå¤‰åŒ–ã™ã‚‹æ™‚é–“
 
-    private float startTextSize = 10f; // ‰Šú‚ÌƒtƒHƒ“ƒgƒTƒCƒY
-    private float timeElapsed = 0f;    // Œo‰ßŠÔ
+    private float startTextSize = 10f; // åˆæœŸã®ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+    private float timeElapsed = 0f;    // çµŒéæ™‚é–“
 
     void Start()
     {
-        startTextSize = wordText.fontSize; // ‰Šú‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğæ“¾
-        DisplayNextWord(); // ƒQ[ƒ€ŠJn‚ÉÅ‰‚Ì’PŒê‚ğ•\¦
-        RetryBtn.SetActive(false); // ƒŠƒgƒ‰ƒCƒ{ƒ^ƒ“‚ğ”ñ•\¦
+        startTextSize = wordText.fontSize; // åˆæœŸã®ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’å–å¾—
+        DisplayNextWord(); // ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã«æœ€åˆã®å˜èªã‚’è¡¨ç¤º
+        RetryBtn.SetActive(false); // ãƒªãƒˆãƒ©ã‚¤ãƒœã‚¿ãƒ³ã‚’éè¡¨ç¤º
         wordText.fontSize = Mathf.RoundToInt(startTextSize);
 
         gameClearText.enabled = false;
@@ -34,20 +34,20 @@ public class TypingGame : MonoBehaviour
 
         void Update()
     {
-        // ƒ†[ƒU[“ü—Í‚Ìˆ—
+        // ãƒ¦ãƒ¼ã‚¶ãƒ¼å…¥åŠ›ã®å‡¦ç†
         ProcessUserInput();
 
-        // ƒtƒHƒ“ƒgƒTƒCƒY‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+        // ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
         AnimateTextSize();
 
-        //ƒQ[ƒ€ƒI[ƒo[”»’è
+        //ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼åˆ¤å®š
         CheckGameOver();
     }
 
  
     void ProcessUserInput()
     {
-        // ƒ†[ƒU[‚Ì“ü—Í•¶š—ñ‚ğXV
+        // ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®å…¥åŠ›æ–‡å­—åˆ—ã‚’æ›´æ–°
         string input = inputField.text.Trim();
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -56,53 +56,53 @@ public class TypingGame : MonoBehaviour
         }
     }
 
-    //•¶š‚ğ‚¾‚ñ‚¾‚ñ‘å‚«‚­‚·‚éˆ—
+    //æ–‡å­—ã‚’ã ã‚“ã ã‚“å¤§ããã™ã‚‹å‡¦ç†
     void AnimateTextSize()
     {
         if (timeElapsed < textDuration)
         {
             timeElapsed += Time.deltaTime;
             float newSize = Mathf.Lerp(startTextSize, maxTextSize, timeElapsed / textDuration);
-            wordText.fontSize = Mathf.RoundToInt(newSize); // ƒtƒHƒ“ƒgƒTƒCƒY‚ğXV
+            wordText.fontSize = Mathf.RoundToInt(newSize); // ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’æ›´æ–°
         }
     }
 
-    //“ü—Í‚µ‚½•¶š‚Ì³Œë”»’è
+    //å…¥åŠ›ã—ãŸæ–‡å­—ã®æ­£èª¤åˆ¤å®š
     void CheckInput(string userInput)
     {
         if (string.Compare(userInput, words[currentWordIndex], true) == 0)
         {
-            currentWordIndex++; // ³‰ğ‚Ìê‡AŸ‚Ì’PŒê‚Éi‚Ş
+            currentWordIndex++; // æ­£è§£ã®å ´åˆã€æ¬¡ã®å˜èªã«é€²ã‚€
             DisplayNextWord();
         }
         else
         {
-            feedbackText.text = "•s³‰ğI‚à‚¤ˆê“x“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B";
-            inputField.text = ""; // “ü—Í—“‚ğƒNƒŠƒA
+            feedbackText.text = "ä¸æ­£è§£ï¼ã‚‚ã†ä¸€åº¦å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚";
+            inputField.text = ""; // å…¥åŠ›æ¬„ã‚’ã‚¯ãƒªã‚¢
         }
     }
 
-    //Ÿ‚Ì–â‘è‚Ö
+    //æ¬¡ã®å•é¡Œã¸
     void DisplayNextWord()
     {
         if (currentWordIndex < words.Length)
         {
-            wordText.text = words[currentWordIndex]; // Ÿ‚Ì’PŒê‚ğ•\¦
-            inputField.text = ""; // “ü—Í—“‚ğƒNƒŠƒA
-            feedbackText.text = ""; // ƒtƒB[ƒhƒoƒbƒN‚ğƒNƒŠƒA
-            inputField.ActivateInputField(); // “ü—ÍƒtƒB[ƒ‹ƒh‚ğƒAƒNƒeƒBƒu‚É
+            wordText.text = words[currentWordIndex]; // æ¬¡ã®å˜èªã‚’è¡¨ç¤º
+            inputField.text = ""; // å…¥åŠ›æ¬„ã‚’ã‚¯ãƒªã‚¢
+            feedbackText.text = ""; // ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’ã‚¯ãƒªã‚¢
+            inputField.ActivateInputField(); // å…¥åŠ›ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«
 
-            // ƒtƒHƒ“ƒgƒTƒCƒYƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒŠƒZƒbƒg
+            // ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒªã‚»ãƒƒãƒˆ
             timeElapsed = 0f;
-            wordText.fontSize = Mathf.RoundToInt(startTextSize); // ƒtƒHƒ“ƒgƒTƒCƒY‚ğ‰Šú’l‚ÉƒŠƒZƒbƒg
+            wordText.fontSize = Mathf.RoundToInt(startTextSize); // ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’åˆæœŸå€¤ã«ãƒªã‚»ãƒƒãƒˆ
         }
         else
         {
-            inputField.text = ""; // “ü—Í—“‚ğƒNƒŠƒA
-            wordText.enabled = false;  // ’PŒêƒŠƒXƒg‚ªI—¹‚µ‚½‚çƒQ[ƒ€ƒNƒŠƒA•\¦
+            inputField.text = ""; // å…¥åŠ›æ¬„ã‚’ã‚¯ãƒªã‚¢
+            wordText.enabled = false;  // å˜èªãƒªã‚¹ãƒˆãŒçµ‚äº†ã—ãŸã‚‰ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢è¡¨ç¤º
             gameClearText.enabled = true;
-            RetryBtn.SetActive(true); // ƒŠƒgƒ‰ƒCƒ{ƒ^ƒ“‚ğ•\¦
-            feedbackText.enabled = false; // ƒtƒB[ƒhƒoƒbƒN‚ğ”ñ•\¦
+            RetryBtn.SetActive(true); // ãƒªãƒˆãƒ©ã‚¤ãƒœã‚¿ãƒ³ã‚’è¡¨ç¤º
+            feedbackText.enabled = false; // ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’éè¡¨ç¤º
         }
     }
 
@@ -110,17 +110,17 @@ public class TypingGame : MonoBehaviour
     {
         if (wordText.fontSize >= maxTextSize)
         {
-            gameOverText.enabled = true; // ƒQ[ƒ€ƒI[ƒo[ƒeƒLƒXƒg‚ğ•\¦
-            RetryBtn.SetActive(true); // ƒŠƒgƒ‰ƒCƒ{ƒ^ƒ“‚ğ•\¦
-            wordText.enabled = false; // ’PŒê‚Ì•\¦‚ğ”ñ•\¦‚É
-            feedbackText.enabled = false; // ƒtƒB[ƒhƒoƒbƒN‚ğ”ñ•\¦
-            gameClearText.enabled = false; // ƒQ[ƒ€ƒNƒŠƒAƒeƒLƒXƒg‚ğ”ñ•\¦
+            gameOverText.enabled = true; // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ãƒ†ã‚­ã‚¹ãƒˆã‚’è¡¨ç¤º
+            RetryBtn.SetActive(true); // ãƒªãƒˆãƒ©ã‚¤ãƒœã‚¿ãƒ³ã‚’è¡¨ç¤º
+            wordText.enabled = false; // å˜èªã®è¡¨ç¤ºã‚’éè¡¨ç¤ºã«
+            feedbackText.enabled = false; // ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’éè¡¨ç¤º
+            gameClearText.enabled = false; // ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ãƒ†ã‚­ã‚¹ãƒˆã‚’éè¡¨ç¤º
         }
     }
 
-    //ƒŠƒgƒ‰ƒCƒ{ƒ^ƒ“
+    //ãƒªãƒˆãƒ©ã‚¤ãƒœã‚¿ãƒ³
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // ƒV[ƒ“‚ğÄƒ[ƒh‚µ‚ÄƒQ[ƒ€‚ğƒŠƒZƒbƒg
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // ã‚·ãƒ¼ãƒ³ã‚’å†ãƒ­ãƒ¼ãƒ‰ã—ã¦ã‚²ãƒ¼ãƒ ã‚’ãƒªã‚»ãƒƒãƒˆ
     }
 }
